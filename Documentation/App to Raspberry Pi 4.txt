@@ -1,0 +1,27 @@
+1 -  Pi hole https://pi-hole.net
+	a - Install -> https://docs.pi-hole.net/main/basic-install/
+	b - Recursive DNS -> https://docs.pi-hole.net/guides/dns/unbound/?h=
+	c - Change Pass -> sudo pihole -a -p Lucas35109884
+	c - Restar Raspberry pi 
+
+2 - VPN https://www.pivpn.io
+	a - Install ->https://docs.pivpn.io/install/
+	b - Restar Raspberry pi 
+
+3 - Change port PI Hole Web 
+	a - sudo nano /etc/lighttpd/lighttpd.conf -> Server port 7206
+	b - Restar Raspberry pi
+
+4- Install diyHue https://diyhue.org
+	a - Install -> https://diyhue.readthedocs.io/en/latest/getting_started.html#host-install
+	Si hay problema con phyton sacar o quitar --break-system-packages de estas lineas en el instalador
+	
+	pip3 install -r ../requirements.txt
+    pip3 install -r ../requirements.txt --break-system-packages
+	
+	Agregar las luces y list
+	
+5 - Configurar IP con DNS
+	a - sudo nano /home/matadork8/Documents/UpdateDns.sh
+	z - sudo crontab -e
+		
