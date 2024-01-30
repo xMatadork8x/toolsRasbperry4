@@ -25,3 +25,38 @@
 	a - sudo nano /home/matadork8/Documents/UpdateDns.sh
 	z - sudo crontab -e
 		
+
+6 - modificar login de ssh
+nano ~/.bashrc
+
+function mostrar_informacion {
+    echo "----------------------------------------"
+    echo "Bienvenido a tu Raspberry Pi"
+    echo "Sistema operativo: $(lsb_release -d | cut -f2)"
+    echo "Arquitectura de la CPU: $(uname -m)"
+    echo "Núcleos de la CPU: $(nproc)"
+    echo "Uso de CPU y memoria:"
+    echo "$(top -bn1 | grep 'Cpu(s)' | awk '{print "  Uso de CPU: " $2 "%"}')"
+    # Temperatura de la CPU y GPU
+    temperatura_miligrados=$(cat /sys/class/thermal/thermal_zone0/temp)
+    temperatura_cpu=$(echo "scale=2; $temperatura_miligrados / 1000" | bc)
+    temperatura_gpu=$(vcgencmd measure_temp | cut -d= -f2)
+    echo "Temperatura CPU: $temperatura_cpu"
+    echo "Temperatura GPU: $temperatura_gpu"
+    echo "$(free -h | grep 'Mem:' | awk '{print "  Memoria libre: " $4}')"
+    echo "Espacio disponible en SD: $(df -h / | awk 'NR==2 {print $4}')"
+    # Última sesión
+    echo "Última sesión: $(last -x | grep -v 'still' | head -n 1 | awk '{print $1, $4, $5, $6}')"
+    # Última actualización del archivo UpdateDns.log
+    archivo_log="/home/matadork8/Tools/Logs/UpdateDns.log"
+    if [ -e "$archivo_log" ]; then
+        ultima_actualizacion=$(stat -c %y "$archivo_log" | awk '{split($1,a,"-"); split($2,b,":"); print a[1] "-" a[2] "-" a[3] " " b[1] ":" b[2] ":" b[3]}')
+        echo "Última actualización de Dns: $ultima_actualizacion"
+    else
+        echo "El archivo $archivo_log no existe."
+    fi
+    # Actualizaciones disponibles
+    echo "Actualizaciones disponibles: $(sudo apt list --upgradable 2>/dev/null | grep -c 'upgradable')"
+    echo "----------------------------------------"
+}
+
